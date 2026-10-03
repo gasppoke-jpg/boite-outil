@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#16213A">
+<meta name="description" content="Petits outils utiles du quotidien : pourboire, conversions, budget, devises. Sans compte, dans votre navigateur.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Boîte à outils du quotidien">
+<meta property="og:description" content="Pourboire, conversions, budget, devises : de petits outils rapides, sans compte ni publicité.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🧰%3C/text%3E%3C/svg%3E">
+<title>Boîte à outils du quotidien</title>
+<style>
+:root{--bg:#ECEFF3;--ink:#16213A;--mut:#566079;--card:#fff;--line:#D3D9E4;--dot:#C6CDDA;--field:#F5F7FA;--acc:#FFC629;--c1:#FFC629;--c2:#8FD6B8;--c3:#9CC7FF;--c4:#FFA58F;--good:#137A55;--bad:#C93A3F;color-scheme:light dark}
+@media(prefers-color-scheme:dark){:root{--bg:#0E1525;--ink:#EEF1F7;--mut:#9CA6BC;--card:#172038;--line:#2B3757;--dot:#1D2842;--field:#101829;--good:#4FD1A0;--bad:#FF7A7F}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;color:var(--ink);font:16px/1.5 ui-rounded,"SF Pro Rounded",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg) radial-gradient(var(--dot) 1.6px,transparent 1.7px) 0 0/24px 24px}
+.wrap{max-width:980px;margin:0 auto;padding:16px 20px 48px}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+header.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px 12px;padding:8px 0 28px}
+.brand{background:none;border:0;padding:0;font-family:inherit;cursor:pointer;display:flex;align-items:center;gap:10px;font-weight:800;color:var(--ink);text-decoration:none;font-size:1.05rem}
+.brand i{width:34px;height:34px;border-radius:10px;background:var(--acc);display:grid;place-items:center}
+.brand svg{width:20px;height:20px;stroke:#16213A}
+.curbox{display:flex;align-items:center;gap:8px;font-size:.9rem;color:var(--mut)}
+select,input[type=text],input[type=number],input:not([type]){font:inherit}
+select{padding:8px 10px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);color:var(--ink)}
+h1{font-size:clamp(2rem,6vw,3.4rem);line-height:1.05;margin:0 0 10px;letter-spacing:-.02em;font-weight:800}
+h1:focus{outline:none}
+.sub{color:var(--mut);margin:0 0 28px;max-width:52ch;font-size:1.05rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+.tool{display:block;width:100%;text-align:left;font:inherit;cursor:pointer;text-decoration:none;color:inherit;background:var(--card);border:1.5px solid var(--line);border-radius:22px;padding:14px 22px 24px;box-shadow:0 6px 0 var(--line);transition:transform .15s,box-shadow .15s}
+.tool::before{content:"";display:block;width:56px;height:7px;border-radius:4px;background:var(--line);margin:0 auto 20px}
+.tool:hover{transform:translateY(3px);box-shadow:0 3px 0 var(--line)}
+.tool:active{transform:translateY(6px);box-shadow:0 0 0 var(--line)}
+.ico{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;margin-bottom:14px}
+.ico svg{width:30px;height:30px;stroke:#16213A;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tool h2{margin:0 0 4px;font-size:1.3rem}
+.tool p{margin:0;color:var(--mut)}
+.back{position:sticky;top:10px;z-index:20;box-shadow:0 3px 10px rgba(0,0,0,.2);background:var(--card);border:1.5px solid var(--ink);border-radius:10px;font:inherit;cursor:pointer;display:inline-block;margin:0 0 18px;color:var(--ink);font-weight:700;padding:4.5px 8px}
+.back:hover{background:var(--acc);color:#16213A}
+.cols{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:start}
+@media(max-width:760px){.cols{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1.5px solid var(--line);border-radius:22px;padding:22px}
+.res{background:#16213A;color:#EEF1F7;border-color:var(--line)}
+.res .big{font-size:clamp(2.2rem,8vw,3.2rem);font-weight:800;color:#FFC629;line-height:1.1;letter-spacing:-.02em;word-break:break-word}
+.res .lab{color:#AEB8CE;font-size:.95rem}
+.res dl{margin:18px 0 0;display:grid;gap:10px}
+.res dl div{display:flex;justify-content:space-between;gap:12px;border-top:1px solid #33405F;padding-top:10px}
+.res dt{color:#AEB8CE}.res dd{margin:0;font-weight:700;text-align:right}
+label,.lbl{display:block;font-weight:700;font-size:.92rem;margin:0 0 6px}
+.field{margin-bottom:18px}
+input.in,select.in{width:100%;padding:12px 14px;font-size:1.15rem;border-radius:12px;border:1.5px solid var(--line);background:var(--field);color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip,.btn{font:inherit;font-weight:700;border:1.5px solid var(--line);background:var(--field);color:var(--ink);border-radius:999px;padding:9px 16px;cursor:pointer}
+.chip[aria-pressed=true],.btn.pri{background:var(--acc);border-color:var(--acc);color:#16213A}
+.btn{border-radius:12px}
+.btn.ghost{background:transparent;border-style:dashed}
+.step{display:flex;align-items:center;gap:14px}
+.step button{width:46px;height:46px;border-radius:14px;font-size:1.5rem;line-height:1;border:1.5px solid var(--line);background:var(--field);color:var(--ink);cursor:pointer;font-weight:700}
+.step output{min-width:2.5ch;text-align:center;font-size:1.5rem;font-weight:800}
+.chk{display:flex;gap:10px;align-items:center;font-weight:500;margin:0}
+.chk input{width:20px;height:20px;accent-color:#FFC629}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.swaprow{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:end;margin-bottom:18px}
+.swap{width:46px;height:46px;border-radius:14px;border:1.5px solid var(--line);background:var(--field);color:var(--ink);font-size:1.3rem;cursor:pointer}
+@media(max-width:480px){.swaprow{grid-template-columns:1fr 1fr}.swap{grid-column:1/-1;width:100%}}
+.all{margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;font-size:.92rem}
+.all span{color:#AEB8CE}.all b{text-align:right}
+.all div{display:flex;justify-content:space-between;gap:8px;border-top:1px solid #33405F;padding-top:6px}
+.row{display:grid;grid-template-columns:1fr 120px 42px;gap:8px;margin-bottom:8px}
+.row button{border:1.5px solid var(--line);background:var(--field);color:var(--ink);border-radius:12px;cursor:pointer;font-size:1.1rem}
+.sec{margin:0 0 10px;font-size:1.1rem}
+.bar{height:14px;border-radius:8px;background:#33405F;overflow:hidden;margin-top:14px}
+.bar i{display:block;height:100%;background:#FFC629;width:0;transition:width .2s}
+.bar.over i{background:#FF7A7F}
+.pos{color:#4FD1A0}.neg{color:#FF7A7F}
+.note{color:var(--mut);font-size:.88rem;margin-top:14px}
+footer{margin-top:40px;color:var(--mut);font-size:.88rem}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <button class="brand" data-go=""><i><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg></i><span id="brandT">Boîte à outils</span></button>
+    <div class="curbox">
+      <select id="lang"><option value="fr">Français</option><option value="en">English</option></select>
+      <select id="cur"><option>EUR</option><option>USD</option><option>GBP</option><option>CHF</option><option>CAD</option></select></div>
+  </header>
+  <main id="app"></main>
+  <footer id="foot"></footer>
+</div>
+<noscript>Cette page a besoin de JavaScript pour fonctionner. / This page needs JavaScript.</noscript>
+<script>
+"use strict";
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const store={
+  get(k,d){try{const v=localStorage.getItem("bo:"+k);return v===null?d:JSON.parse(v)}catch(e){return d}},
+  set(k,v){try{localStorage.setItem("bo:"+k,JSON.stringify(v))}catch(e){}}
+};
+
+/* ===== Langues =====
+   Pour ajouter une langue : copier un bloc ci-dessous, traduire les valeurs, puis ajouter une <option> dans #lang. */
+const I18N={
+fr:{locale:"fr-FR",title:"Boîte à outils du quotidien",short:"Boîte à outils",
+ meta:"Petits outils utiles du quotidien : pourboire, conversions, budget, devises. Sans compte, dans votre navigateur.",
+ cur:"Devise",lang:"Langue",
+ foot:"Tout se passe dans votre navigateur. Seuls vos réglages (langue, devise, unités, pourcentage) sont mémorisés sur cet appareil, jamais vos montants. Seul l’outil Devises contacte un service public pour récupérer les taux du jour, sans lui envoyer vos montants.",
+ homeSub:"Des petits outils rapides, sans compte ni publicité. Choisissez un tiroir.",all:"← Tous les outils",
+ tip_t:"Pourboire",tip_d:"Calculez le pourboire et la part de chacun.",
+ unit_t:"Conversions",unit_d:"Longueurs, poids, volumes et températures.",
+ bud_t:"Budget",bud_d:"Revenus, dépenses par catégorie, solde restant.",
+ fx_t:"Devises",fx_d:"Convertissez des monnaies avec les taux du jour.",
+ bill:"Montant de l’addition",tip:"Pourboire",otherPct:"Autre pourcentage",people:"Nombre de personnes",fewer:"Une personne de moins",more:"Une personne de plus",
+ roundUp:"Arrondir chaque part à l’unité supérieure",eachPays:"Chacun paie",bill2:"Addition",total:"Total",
+ c_length:"Longueur",c_weight:"Poids",c_volume:"Volume",c_temp:"Température",category:"Catégorie",value:"Valeur",from:"De",to:"Vers",swapU:"Inverser les unités",
+ income:"Revenus",expenses:"Dépenses",name:"Nom",amount:"Montant",del:"Supprimer la ligne",addIn:"+ Ajouter un revenu",addEx:"+ Ajouter une catégorie",
+ balance:"Solde restant",notSaved:"Ces montants ne sont pas enregistrés : ils disparaissent quand vous fermez la page.",
+ spent:"{p} % des revenus dépensés",addHint:"Ajoutez vos revenus pour voir la répartition.",r_sal:"Salaire",r_ex:"Logement|Courses|Transports|Loisirs|Autres",
+ swapC:"Inverser les devises",refresh:"Actualiser les taux",refreshing:"Actualisation…",
+ fxLive:"Taux de la Banque centrale européenne du {d}.",fxStamp:" Actualisés à {h}.",fxStale:"Taux du {d}, dernière mise à jour connue.",fxFail:" Actualisation impossible : {r}.",
+ e_timeout:"délai dépassé",e_net:"connexion bloquée ou hors ligne",e_json:"réponse non JSON, code HTTP {c}",e_data:"données incomplètes, code HTTP {c}",
+ u:{in:"po",ft:"pi",cup:"tasse US",gal:"gal US",C:"°C",F:"°F",K:"K"}},
+en:{locale:"en-GB",title:"Everyday Toolbox",short:"Toolbox",
+ meta:"Handy everyday tools: tip splitter, unit converter, budget and currency converter. No account, right in your browser.",
+ cur:"Currency",lang:"Language",
+ foot:"Everything happens in your browser. Only your settings (language, currency, units, percentage) are remembered on this device, never your amounts. Only the Currencies tool contacts a public service to fetch today’s rates, without sending it your amounts.",
+ homeSub:"Quick little tools, no account, no ads. Pick a drawer.",all:"← All tools",
+ tip_t:"Tip",tip_d:"Work out the tip and everyone’s share.",
+ unit_t:"Conversions",unit_d:"Lengths, weights, volumes and temperatures.",
+ bud_t:"Budget",bud_d:"Income, expenses by category, money left.",
+ fx_t:"Currencies",fx_d:"Convert currencies with today’s rates.",
+ bill:"Bill amount",tip:"Tip",otherPct:"Other percentage",people:"Number of people",fewer:"One person fewer",more:"One person more",
+ roundUp:"Round each share up to the next whole unit",eachPays:"Each person pays",bill2:"Bill",total:"Total",
+ c_length:"Length",c_weight:"Weight",c_volume:"Volume",c_temp:"Temperature",category:"Category",value:"Value",from:"From",to:"To",swapU:"Swap units",
+ income:"Income",expenses:"Expenses",name:"Name",amount:"Amount",del:"Delete row",addIn:"+ Add income",addEx:"+ Add category",
+ balance:"Balance left",notSaved:"These amounts are not saved: they disappear when you close the page.",
+ spent:"{p}% of income spent",addHint:"Add your income to see the breakdown.",r_sal:"Salary",r_ex:"Housing|Groceries|Transport|Leisure|Other",
+ swapC:"Swap currencies",refresh:"Refresh rates",refreshing:"Refreshing…",
+ fxLive:"European Central Bank rates for {d}.",fxStamp:" Updated at {h}.",fxStale:"Rates from {d}, last known update.",fxFail:" Refresh failed: {r}.",
+ e_timeout:"timed out",e_net:"connection blocked or offline",e_json:"non-JSON response, HTTP code {c}",e_data:"incomplete data, HTTP code {c}",
+ u:{in:"in",ft:"ft",cup:"US cup",gal:"US gal",C:"°C",F:"°F",K:"K"}}
+};
+let lang=store.get("lang","");
+if(!I18N[lang]) lang=(navigator.language||"").toLowerCase().startsWith("en")?"en":"fr";
+const tr=(k,v)=>{let s=I18N[lang][k];if(s===undefined)s=I18N.fr[k];if(s===undefined)s=k;if(v)for(const x in v)s=s.replace("{"+x+"}",v[x]);return s};
+const ul=u=>I18N[lang].u[u]||u;
+let LOC="fr-FR";
+function setLoc(){
+  LOC=I18N[lang].locale; const nl=navigator.language||"";
+  try{if(nl.toLowerCase().startsWith(lang)){new Intl.NumberFormat(nl);LOC=nl}}catch(e){}
+}
+setLoc();
+
+let cur=store.get("cur","EUR"), onCur=()=>{};
+const money=n=>new Intl.NumberFormat(LOC,{style:"currency",currency:cur}).format(isFinite(n)?n:0);
+const fmt=n=>new Intl.NumberFormat(LOC,{maximumSignificantDigits:8}).format(isFinite(n)?n:0);
+const num=v=>{const n=parseFloat(String(v).replace(/\s/g,"").replace(",","."));return isFinite(n)?n:0};
+
+/* ===== Outil 1 : pourboire ===== */
+function tipTool(el){
+  const s=store.get("tip",{pct:10,n:2,up:false});
+  el.innerHTML=`<div class="cols"><div class="panel">
+    <div class="field"><label for="bill">${tr("bill")}</label><input class="in" id="bill" inputmode="decimal" placeholder="0,00" autocomplete="off"></div>
+    <div class="field"><div class="lbl" id="pl">${tr("tip")}</div>
+      <div class="chips" role="group" aria-labelledby="pl">${[0,5,10,15,20].map(p=>`<button class="chip" data-p="${p}">${p} %</button>`).join("")}</div></div>
+    <div class="field"><label for="pct">${tr("otherPct")}</label><input class="in" id="pct" type="number" min="0" max="100" step="0.5" inputmode="decimal"></div>
+    <div class="field"><div class="lbl">${tr("people")}</div>
+      <div class="step"><button id="m" aria-label="${tr("fewer")}">−</button><output id="n" aria-live="polite"></output><button id="p" aria-label="${tr("more")}">+</button></div></div>
+    <label class="chk"><input type="checkbox" id="up"> ${tr("roundUp")}</label>
+  </div>
+  <div class="panel res"><div class="lab">${tr("eachPays")}</div><div class="big" id="pp" aria-live="polite"></div>
+    <dl><div><dt>${tr("bill2")}</dt><dd id="b"></dd></div><div><dt>${tr("tip")}</dt><dd id="t"></dd></div><div><dt>${tr("total")}</dt><dd id="tot"></dd></div></dl></div></div>`;
+  const q=x=>$(x,el);
+  function update(){
+    const bill=num(q("#bill").value), n=s.n;
+    let pp=bill*(1+s.pct/100)/n;
+    if(s.up) pp=Math.ceil(pp-1e-9);
+    const total=pp*n;
+    q("#pp").textContent=money(pp); q("#b").textContent=money(bill);
+    q("#t").textContent=money(total-bill); q("#tot").textContent=money(total);
+    q("#n").textContent=n; q("#up").checked=s.up;
+    if(document.activeElement!==q("#pct")) q("#pct").value=s.pct;
+    el.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",String(+c.dataset.p===s.pct)));
+  }
+  const save=()=>{store.set("tip",s);update()};
+  el.addEventListener("click",e=>{
+    const c=e.target.closest(".chip"); if(c){s.pct=+c.dataset.p;save()}
+    if(e.target.id==="m"){s.n=Math.max(1,s.n-1);save()}
+    if(e.target.id==="p"){s.n=Math.min(99,s.n+1);save()}
+  });
+  q("#pct").addEventListener("input",e=>{s.pct=Math.min(100,Math.max(0,num(e.target.value)));store.set("tip",s);update()});
+  q("#up").addEventListener("change",e=>{s.up=e.target.checked;save()});
+  q("#bill").addEventListener("input",update);
+  onCur=update; update();
+}
+
+/* ===== Outil 2 : convertisseur ===== */
+const UNITS={
+  length:{mm:.001,cm:.01,m:1,km:1000,"in":.0254,ft:.3048,yd:.9144,mi:1609.344},
+  weight:{g:.001,kg:1,t:1000,oz:.028349523125,lb:.45359237},
+  volume:{mL:.001,L:1,cup:.2365882365,gal:3.785411784},
+  temp:{C:1,F:1,K:1}
+};
+const DEF={length:["km","mi"],weight:["kg","lb"],volume:["L","cup"],temp:["C","F"]};
+const TC={C:x=>x,F:x=>(x-32)*5/9,K:x=>x-273.15}, TF={C:x=>x,F:x=>x*9/5+32,K:x=>x+273.15};
+const conv=(c,v,a,b)=>c==="temp"?TF[b](TC[a](v)):v*UNITS[c][a]/UNITS[c][b];
+function unitTool(el){
+  const s=store.get("unit",{cat:"length",pairs:{}});
+  if(!UNITS[s.cat]) s.cat="length";
+  let val="1";
+  function draw(){
+    const c=s.cat, units=Object.keys(UNITS[c]); let pr=s.pairs[c];
+    if(!pr||!UNITS[c][pr[0]]||!UNITS[c][pr[1]]) pr=DEF[c];
+    const opt=sel=>units.map(u=>`<option value="${u}"${u===sel?" selected":""}>${esc(ul(u))}</option>`).join("");
+    el.innerHTML=`<div class="tabs" role="group" aria-label="${tr("category")}">${Object.keys(UNITS).map(k=>`<button class="chip" data-c="${k}" aria-pressed="${k===c}">${tr("c_"+k)}</button>`).join("")}</div>
+    <div class="cols"><div class="panel">
+      <div class="field"><label for="v">${tr("value")}</label><input class="in" id="v" inputmode="decimal" value="${esc(val)}" autocomplete="off"></div>
+      <div class="swaprow"><div><label for="a">${tr("from")}</label><select class="in" id="a">${opt(pr[0])}</select></div>
+        <button class="swap" id="sw" aria-label="${tr("swapU")}">⇄</button>
+        <div><label for="b">${tr("to")}</label><select class="in" id="b">${opt(pr[1])}</select></div></div>
+    </div>
+    <div class="panel res"><div class="lab" id="from"></div><div class="big" id="out" aria-live="polite"></div><div class="all" id="all"></div></div></div>`;
+    update();
+  }
+  function update(){
+    const c=s.cat, a=$("#a",el).value, b=$("#b",el).value, v=num($("#v",el).value);
+    s.pairs[c]=[a,b]; store.set("unit",s);
+    $("#from",el).textContent=`${fmt(v)} ${ul(a)} =`;
+    $("#out",el).textContent=`${fmt(conv(c,v,a,b))} ${ul(b)}`;
+    $("#all",el).innerHTML=Object.keys(UNITS[c]).filter(u=>u!==a).map(u=>`<div><span>${esc(ul(u))}</span><b>${fmt(conv(c,v,a,u))}</b></div>`).join("");
+  }
+  el.addEventListener("click",e=>{
+    const t=e.target.closest("[data-c]"); if(t){val=$("#v",el).value;s.cat=t.dataset.c;store.set("unit",s);draw()}
+    if(e.target.id==="sw"){const a=$("#a",el),b=$("#b",el),x=a.value;a.value=b.value;b.value=x;update()}
+  });
+  el.addEventListener("input",e=>{if(e.target.id==="v"){val=e.target.value;update()}});
+  el.addEventListener("change",e=>{if(e.target.id==="a"||e.target.id==="b")update()});
+  onCur=()=>{}; draw();
+}
+
+/* ===== Outil 3 : budget ===== */
+function budgetTool(el){
+  const M={in:[{n:tr("r_sal"),v:""}],ex:tr("r_ex").split("|").map(n=>({n,v:""}))};
+  const row=(k,r,i)=>`<div class="row"><input class="in" data-k="${k}" data-i="${i}" data-f="n" value="${esc(r.n)}" aria-label="${tr("name")}" placeholder="${tr("name")}"><input class="in" data-k="${k}" data-i="${i}" data-f="v" value="${esc(r.v)}" inputmode="decimal" aria-label="${tr("amount")}" placeholder="0,00"><button data-del="${k}:${i}" aria-label="${tr("del")}">✕</button></div>`;
+  function draw(){
+    el.innerHTML=`<div class="cols"><div class="panel">
+      <h2 class="sec">${tr("income")}</h2>${M.in.map((r,i)=>row("in",r,i)).join("")}<button class="btn ghost" data-add="in">${tr("addIn")}</button>
+      <h2 class="sec" style="margin-top:26px">${tr("expenses")}</h2>${M.ex.map((r,i)=>row("ex",r,i)).join("")}<button class="btn ghost" data-add="ex">${tr("addEx")}</button>
+    </div>
+    <div class="panel res"><div class="lab">${tr("balance")}</div><div class="big" id="bal" aria-live="polite"></div>
+      <div class="bar" id="bar"><i></i></div><div class="lab" id="pc" style="margin-top:8px"></div>
+      <dl><div><dt>${tr("income")}</dt><dd id="ti"></dd></div><div><dt>${tr("expenses")}</dt><dd id="te"></dd></div></dl>
+      <div class="note" style="color:#AEB8CE">${tr("notSaved")}</div></div></div>`;
+    totals();
+  }
+  function totals(){
+    const ti=M.in.reduce((a,r)=>a+num(r.v),0), te=M.ex.reduce((a,r)=>a+num(r.v),0), bal=ti-te;
+    const b=$("#bal",el); b.textContent=money(bal); b.className="big "+(bal<0?"neg":"");
+    $("#ti",el).textContent=money(ti); $("#te",el).textContent=money(te);
+    const p=ti>0?te/ti*100:(te>0?100:0);
+    $("#bar",el).className="bar"+(bal<0?" over":""); $("#bar i",el).style.width=Math.min(100,p)+"%";
+    $("#pc",el).textContent=ti>0?tr("spent",{p:fmt(Math.round(p))}):tr("addHint");
+  }
+  el.addEventListener("input",e=>{const d=e.target.dataset;if(d.k){M[d.k][+d.i][d.f]=e.target.value;totals()}});
+  el.addEventListener("click",e=>{
+    const a=e.target.closest("[data-add]"), x=e.target.closest("[data-del]");
+    if(a){M[a.dataset.add].push({n:"",v:""});draw();const r=el.querySelectorAll(`[data-k="${a.dataset.add}"][data-f="n"]`);r[r.length-1].focus()}
+    if(x){const[k,i]=x.dataset.del.split(":");M[k].splice(+i,1);draw()}
+  });
+  onCur=totals; draw();
+}
+
+/* ===== Outil 4 : devises ===== */
+const FX0={date:"2026-09-28",rates:{EUR:1,AUD:1.6199,BRL:5.9186,CAD:1.6118,CHF:0.9464,CNY:7.6352,CZK:24.397,DKK:7.4752,GBP:0.85785,HKD:8.9258,HUF:367.1,IDR:20453.78,ILS:3.4854,INR:109.2095,ISK:137,JPY:178.5,KRW:1545.05,MXN:20.2133,MYR:4.6456,NOK:10.817,NZD:2.0071,PHP:71.099,PLN:4.373,RON:5.2785,SEK:11.3205,SGD:1.4538,THB:38.196,TRY:55.7318,USD:1.1378,ZAR:18.651}};
+const FXN=(()=>{const cache={};return c=>{try{const d=cache[LOC]||(cache[LOC]=new Intl.DisplayNames([LOC],{type:"currency"}));return d.of(c)||c}catch(e){return c}}})();
+const fmtC=(x,c)=>{try{return (x!==0&&Math.abs(x)<0.01)?fmt(x)+" "+c:new Intl.NumberFormat(LOC,{style:"currency",currency:c}).format(x)}catch(e){return fmt(x)+" "+c}};
+let fxAt=0;
+function fxTool(el){
+  let R=store.get("fx-rates",FX0), live=Date.now()-fxAt<6e5, failed="", stamp="";
+  const codes=Object.keys(FX0.rates).sort(), s=store.get("fx",{});
+  let A=codes.includes(s.a)?s.a:(codes.includes(cur)?cur:"EUR"), B=codes.includes(s.b)?s.b:(A==="USD"?"EUR":"USD");
+  const r=c=>(R.rates&&R.rates[c])||FX0.rates[c], cv=(x,f,t)=>x/r(f)*r(t);
+  const opt=sel=>codes.map(c=>`<option value="${c}"${c===sel?" selected":""}>${c} – ${esc(FXN(c))}</option>`).join("");
+  el.innerHTML=`<div class="cols"><div class="panel">
+    <div class="field"><label for="v">${tr("amount")}</label><input class="in" id="v" inputmode="decimal" value="100" autocomplete="off"></div>
+    <div class="swaprow"><div><label for="a">${tr("from")}</label><select class="in" id="a">${opt(A)}</select></div>
+      <button class="swap" id="sw" aria-label="${tr("swapC")}">⇄</button>
+      <div><label for="b">${tr("to")}</label><select class="in" id="b">${opt(B)}</select></div></div>
+    <button class="btn" id="rf">${tr("refresh")}</button><div class="note" id="st" role="status"></div></div>
+    <div class="panel res"><div class="lab" id="from"></div><div class="big" id="out" aria-live="polite"></div>
+      <div class="lab" id="rate" style="margin-top:10px"></div><div class="all" id="all"></div></div></div>`;
+  const q=x=>$(x,el);
+  function update(){
+    const v=num(q("#v").value); A=q("#a").value; B=q("#b").value; store.set("fx",{a:A,b:B});
+    q("#from").textContent=`${fmtC(v,A)} =`; q("#out").textContent=fmtC(cv(v,A,B),B);
+    q("#rate").textContent=`1 ${A} = ${fmt(cv(1,A,B))} ${B}`;
+    q("#all").innerHTML=["EUR","USD","GBP","CHF","JPY","CAD"].filter(c=>c!==A).slice(0,5).map(c=>`<div><span>${c}</span><b>${fmtC(cv(v,A,c),c)}</b></div>`).join("");
+    const d=new Date(R.date+"T00:00:00").toLocaleDateString(LOC,{day:"numeric",month:"long",year:"numeric"});
+    q("#st").textContent=live?tr("fxLive",{d})+(stamp?tr("fxStamp",{h:stamp}):""):tr("fxStale",{d})+(failed?tr("fxFail",{r:failed}):"");
+  }
+  async function refresh(){
+    const bt=q("#rf"); bt.disabled=true; bt.textContent=tr("refreshing"); failed="";
+    try{
+      const ctl=new AbortController(), to=setTimeout(()=>ctl.abort(),7000);
+      const res=await fetch("https://api.frankfurter.dev/v1/latest",{signal:ctl.signal});
+      clearTimeout(to);
+      const txt=await res.text(); let j;
+      try{j=JSON.parse(txt)}catch(_){throw new Error(tr("e_json",{c:res.status}))}
+      if(!res.ok||!j||!j.rates||typeof j.rates.USD!=="number") throw new Error(tr("e_data",{c:res.status}));
+      R={date:j.date,rates:Object.assign({EUR:1},j.rates)}; live=true; fxAt=Date.now(); store.set("fx-rates",R);
+      stamp=new Date().toLocaleTimeString(LOC,{hour:"2-digit",minute:"2-digit",second:"2-digit"});
+    }catch(e){live=false;stamp="";failed=e.name==="AbortError"?tr("e_timeout"):(e instanceof TypeError?tr("e_net"):e.message)}
+    bt.disabled=false; bt.textContent=tr("refresh"); update();
+  }
+  el.addEventListener("input",e=>{if(e.target.id==="v")update()});
+  el.addEventListener("change",e=>{if(e.target.id==="a"||e.target.id==="b")update()});
+  el.addEventListener("click",e=>{
+    if(e.target.id==="sw"){const a=q("#a"),b=q("#b"),x=a.value;a.value=b.value;b.value=x;update()}
+    if(e.target.id==="rf") refresh();
+  });
+  onCur=()=>{}; update(); if(!live) refresh();
+}
+
+/* ===== Registre des outils =====
+   Pour ajouter un outil : écrire une fonction render(el), ajouter ses textes (k+"_t", k+"_d") dans chaque langue, puis une entrée ici.
+   La carte d’accueil, l’adresse (#/id) et le titre de page sont générés automatiquement. */
+const TOOLS=[
+  {id:"pourboire",k:"tip",color:"var(--c1)",
+   icon:'<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/>',render:tipTool},
+  {id:"conversions",k:"unit",color:"var(--c2)",
+   icon:'<path d="M4 8h15l-3-3M20 16H5l3 3"/>',render:unitTool},
+  {id:"budget",k:"bud",color:"var(--c3)",
+   icon:'<path d="M3 7h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M3 7l12-3v3M16 14h2"/>',render:budgetTool},
+  {id:"devises",k:"fx",color:"var(--c4)",
+   icon:'<circle cx="12" cy="12" r="9"/><path d="M15 9.2c-.5-.8-1.7-1.3-3-1.2-1.5.1-2.5 1-2.3 2 .3 2.4 5.2 1.2 5 3.8-.1 1.1-1.3 2-2.9 2-1.2 0-2.3-.5-2.8-1.4M12 6v2m0 8v2"/>',render:fxTool}
+];
+
+/* ===== Navigation ===== */
+const app=$("#app"); let curId="";
+function applyStatic(){
+  document.documentElement.lang=lang;
+  $("#brandT").textContent=tr("short"); $("#foot").textContent=tr("foot");
+  for(const id of ["cur","lang"]){const e=$("#"+id);e.setAttribute("aria-label",tr(id));e.title=tr(id)}
+  $("meta[name=description]").content=tr("meta");
+}
+function route(id){
+  if(typeof id!=="string") id=location.hash.replace(/^#\/?/,"");
+  const tl=TOOLS.find(x=>x.id===id); onCur=()=>{}; curId=tl?tl.id:"";
+  if(!tl){
+    document.title=tr("title");
+    app.innerHTML=`<h1>${tr("title")}</h1><p class="sub">${tr("homeSub")}</p>
+    <div class="grid">${TOOLS.map(x=>`<button class="tool" data-go="${x.id}"><div class="ico" style="background:${x.color}"><svg viewBox="0 0 24 24">${x.icon}</svg></div><h2>${tr(x.k+"_t")}</h2><p>${tr(x.k+"_d")}</p></button>`).join("")}</div>`;
+    return;
+  }
+  document.title=tr(tl.k+"_t")+" – "+tr("short");
+  app.innerHTML=`<button class="back" data-go="">${tr("all")}</button><h1 tabindex="-1">${tr(tl.k+"_t")}</h1><p class="sub">${tr(tl.k+"_d")}</p><div id="tool"></div>`;
+  tl.render($("#tool"));
+  $("h1").focus({preventScroll:true}); window.scrollTo(0,0);
+}
+const curSel=$("#cur"), langSel=$("#lang");
+if(![...curSel.options].some(o=>o.value===cur)) cur="EUR";
+curSel.value=cur; langSel.value=lang;
+curSel.addEventListener("change",()=>{cur=curSel.value;store.set("cur",cur);onCur()});
+langSel.addEventListener("change",()=>{lang=langSel.value;store.set("lang",lang);setLoc();applyStatic();route(curId)});
+/* Navigation sans lien : boutons + affichage direct. L’adresse (#) n’est mise à jour que hors aperçu intégré. */
+const embedded=(()=>{try{return window.self!==window.top}catch(e){return true}})();
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-go]"); if(!b) return;
+  const id=b.dataset.go;
+  if(!embedded){try{history.pushState(null,"",id?"#/"+id:location.pathname+location.search)}catch(err){}}
+  route(id);
+});
+addEventListener("hashchange",()=>route());
+addEventListener("popstate",()=>route());
+applyStatic();
+route();
+</script>
+</body>
+</html>
